@@ -1,0 +1,27 @@
+name: Azure VM Deployment
+
+on:
+  push:
+    branches:
+      - main  # Modify this to match your branch name
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Connect to Azure VM and update code
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} <Joineer>@13.95.131.205 "sudo systemctl stop  && cd /path/to/code && git pull"
+
+      - name: Start service on Azure VM
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} <username>@<vm_ip_address> "sudo systemctl start <service_name>"
