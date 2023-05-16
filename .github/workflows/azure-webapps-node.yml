@@ -5,6 +5,10 @@ on:
     branches:
       - main  # Modify this to match your branch name
 
+env:
+  using: 'node16'
+  main: 'main.js'
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
